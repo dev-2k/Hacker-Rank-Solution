@@ -1,0 +1,92 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+
+public class StrokesToPaint {
+    static char VISITED = 'x';
+
+    public static void print(char[][] bucket_1) {
+        int rows = bucket_1.length;
+        int cols = bucket_1[0].length;
+
+        for (int a_1 = 0; a_1 < rows; a_1++) {
+            for (int c = 0; c < cols; c++) {
+                System.out.print(bucket_1[a_1][c]);
+            }
+            System.out.println();
+        }
+        System.out.println("------------------------------------");
+    }
+
+    public static boolean isValid(int i, int j, char[][] bucket_1, char char_1) {
+        int rows = bucket_1.length;
+        int cols = bucket_1[0].length;
+
+        if (i < 0 || j < 0 || i >= rows || j >= cols || bucket_1[i][j] != char_1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public static void dfs(char[][] bucket_1, int a_1, int c, char char_1) {
+        bucket_1[a_1][c] = VISITED;
+
+        // With Diagonals
+        // int[] ith = {0, 1, 1, -1, 0, -1, -1, 1};
+        // int[] jth = {1, 0, 1, 0, -1, -1, 1, -1};
+
+        int[] ith = {0, 1, -1, 0};
+        int[] jth = {1, 0, 0, -1};
+        for (int k = 0; k < ith.length; k++) {
+            if (isValid(a_1 + ith[k], c + jth[k], bucket_1, char_1)) {
+                dfs(bucket_1, a_1 + ith[k], c + jth[k], char_1);
+            }
+        }
+    }
+
+    public static int strokesRequired(char[][] bucket_1) {
+        int rows = bucket_1.length;
+        int cols = bucket_1[0].length;
+
+        // Start a DFS from every non visited cell
+        int numberOfComponents = 0;
+        for (int a_1 = 0; a_1 < rows; a_1++) {
+            for (int c = 0; c < cols; c++) {
+                if (bucket_1[a_1][c] != VISITED) {
+                    numberOfComponents++;
+                    dfs(bucket_1, a_1, c, bucket_1[a_1][c]);
+                }
+            }
+        }
+
+        return numberOfComponents;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+       // System.setIn(new FileInputStream(System.getProperty("user.home") + "/" + "in11.txt"));
+        //Scanner outputScanner = new Scanner(new FileInputStream(System.getProperty("user.home") + "/" + "out.txt"));
+
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        char[][] bucket_1 = new char[n][];
+        for (int i = 0; i < n; i++) {
+            String s = scanner.next();
+            bucket_1[i] = s.toCharArray();
+        }
+
+        System.out.println(strokesRequired(bucket_1));
+    }
+}
