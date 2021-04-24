@@ -1,0 +1,33 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+#
+# Complete the 'lastLetters' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts STRING word as parameter.
+#
+
+def lastLetters(word):
+    # Write your code here
+    len_word = len(word)
+    char_1 = word[len_word-2]
+    char_2 = word[len_word-1]
+    n_str = char_2+" "+char_1
+    return n_str
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    word = input()
+
+    result = lastLetters(word)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
