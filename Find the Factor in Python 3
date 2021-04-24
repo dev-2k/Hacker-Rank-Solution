@@ -1,0 +1,48 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+
+#
+# Complete the 'pthFactor' function below.
+#
+# The function is expected to return a LONG_INTEGER.
+# The function accepts following parameters:
+#  1. LONG_INTEGER n
+#  2. LONG_INTEGER p
+#
+
+def pthFactor(n, p):
+    # Write your code here
+    l=[]
+    k=int(math.sqrt(n))+1
+    for i in range(1,k,1):
+        if n%i==0:
+            l.append(i)
+            if(i!=math.sqrt(n)):
+                l.append(int(n/i))
+    l.sort(reverse=False)
+    if(p>len(l)):
+        return 0
+    else:
+        return l[p-1]
+        
+           
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    p = int(input().strip())
+
+    result = pthFactor(n, p)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
